@@ -6,7 +6,10 @@
 package gui;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFileChooser;
 
 /**
@@ -94,18 +97,27 @@ public class Backup_Restore extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //set path
-        
+
         JFileChooser jfc = new JFileChooser();
         jfc.showOpenDialog(this);
-        
+
+        String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+
         try {
-            File sf = jfc.getSelectedFile();
-            String path = sf.getAbsolutePath();
-            
-            System.out.println(path);
-            
+            File selectedFile = jfc.getSelectedFile();
+//            String path = sf.getAbsolutePath();
+            String path = selectedFile.getParent() + File.separator + selectedFile.getName() + "\\" + date + ".sql";
+
+            File newFile = new File(path);
+            if (newFile.createNewFile()) {
+                jTextField1.setText(path);
+                System.out.println("new file created");
+            } else {
+                System.out.println("file already exists");
+            }
+
         } catch (Exception e) {
-            
+
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
